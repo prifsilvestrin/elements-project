@@ -1,7 +1,7 @@
-# Basic Project
-## Basic Project Structure
+# Elements Project
+## Elements Project Structure
 
-*Default Structure for A Basic Project*
+*Default Structure for Elements Project*
 
 **Java 8**
 
@@ -10,4 +10,4 @@
 
 Java Project for SQA Boot Camp Program. 
 
-[Priscila Ferreira Silvestrin](https://github.com/prifsilvestrin/basic-project)
+[Priscila Ferreira Silvestrin](https://github.com/prifsilvestrin/elements-project)
