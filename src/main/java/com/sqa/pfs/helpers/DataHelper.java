@@ -1,4 +1,4 @@
-package com.sqa.jf.helpers;
+package com.sqa.pfs.helpers;
 
 import java.io.*;
 import java.sql.*;
@@ -9,8 +9,8 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
-import com.sqa.jf.helpers.enums.*;
-import com.sqa.jf.helpers.exceptions.*;
+import com.sqa.pfs.helpers.enums.*;
+import com.sqa.pfs.helpers.exceptions.*;
 
 /**
  * DataHelper Class to handle reading data from different sources.
@@ -64,15 +64,17 @@ public class DataHelper {
 	 * @throws DataTypesCountException
 	 * @throws DataTypesTypeException
 	 */
-	public static Object[][] evalDatabaseTable(String driverClassString, String databaseStringUrl, String username,
-			String password, String tableName) throws ClassNotFoundException, SQLException, DataTypesMismatchException,
+	public static Object[][] evalDatabaseTable(String driverClassString,
+			String databaseStringUrl, String username, String password, String tableName)
+			throws ClassNotFoundException, SQLException, DataTypesMismatchException,
 			DataTypesCountException, DataTypesTypeException {
 		// Method calls overloaded method which sets no
 		// offset for col or row in
 		// the case you wanted to offset your data retrieved
 		// based on a column
 		// or row offset
-		return evalDatabaseTable(driverClassString, databaseStringUrl, username, password, tableName, 0, 0, null);
+		return evalDatabaseTable(driverClassString, databaseStringUrl, username, password,
+				tableName, 0, 0, null);
 	}
 
 	/**
@@ -94,10 +96,11 @@ public class DataHelper {
 	 * @throws DataTypesCountException
 	 * @throws DataTypesTypeException
 	 */
-	public static Object[][] evalDatabaseTable(String driverClassString, String databaseStringUrl, String username,
-			String password, String tableName, int rowOffset, int colOffset, DataType[] dataTypes)
-			throws DataTypesMismatchException, ClassNotFoundException, SQLException, DataTypesCountException,
-			DataTypesTypeException {
+	public static Object[][] evalDatabaseTable(String driverClassString,
+			String databaseStringUrl, String username, String password, String tableName,
+			int rowOffset, int colOffset, DataType[] dataTypes)
+			throws DataTypesMismatchException, ClassNotFoundException, SQLException,
+			DataTypesCountException, DataTypesTypeException {
 		// 2D Array of Objects to hold data object to be
 		// returned
 		Object[][] myData;
@@ -108,7 +111,8 @@ public class DataHelper {
 		// Create Connection and set value to the static
 		// method getConnection
 		// from DriverManager
-		Connection dbconn = DriverManager.getConnection(databaseStringUrl, username, password);
+		Connection dbconn =
+				DriverManager.getConnection(databaseStringUrl, username, password);
 		// Create Statement object and set its value to
 		// database connection by
 		// calling createStatement instance method
@@ -212,8 +216,9 @@ public class DataHelper {
 	 * @return
 	 * @throws InvalidExcelExtensionException
 	 */
-	public static Object[][] getExcelFileData(String fileLocation, String fileName, Boolean hasLabels,
-			DataType[] dataTypes) throws InvalidExcelExtensionException {
+	public static Object[][] getExcelFileData(String fileLocation, String fileName,
+			Boolean hasLabels, DataType[] dataTypes)
+			throws InvalidExcelExtensionException {
 		// Use a variable to store the 2D Object;
 		Object[][] resultsObject;
 		// Separate the file name from the exchange
@@ -230,12 +235,14 @@ public class DataHelper {
 		if (extension.equalsIgnoreCase("xlsx")) {
 			// Call method to get results from a new type
 			// for excel document
-			results = getNewExcelFileResults(fileLocation, fileName, hasLabels, dataTypes);
+			results =
+					getNewExcelFileResults(fileLocation, fileName, hasLabels, dataTypes);
 			// Check for the extension to be xls or old
 			// Excel -2003
 		} else if (extension.equalsIgnoreCase("xls")) {
 			// Call method to get results from a old type for excel document
-			results = getOldExcelFileResults(fileLocation, fileName, hasLabels, dataTypes);
+			results =
+					getOldExcelFileResults(fileLocation, fileName, hasLabels, dataTypes);
 			// if extension is not one of these, through
 			// exception
 		} else {
@@ -271,7 +278,8 @@ public class DataHelper {
 	 * @param textFormat
 	 * @return
 	 */
-	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat) {
+	public static Object[][] getTextFileData(String fileLocation, String fileName,
+			TextFormat textFormat) {
 		return getTextFileData(fileLocation, fileName, textFormat, false, null);
 	}
 
@@ -286,8 +294,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat,
-			Boolean hasLabels, DataType[] dataTypes) {
+	public static Object[][] getTextFileData(String fileLocation, String fileName,
+			TextFormat textFormat, Boolean hasLabels, DataType[] dataTypes) {
 		Object[][] data;
 		ArrayList<String> lines = openFileAndCollectData(fileLocation, fileName);
 		switch (textFormat) {
@@ -320,8 +328,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	public static Object[][] getTextFileData(String fileLocation, String fileName, TextFormat textFormat,
-			DataType[] dataTypes) {
+	public static Object[][] getTextFileData(String fileLocation, String fileName,
+			TextFormat textFormat, DataType[] dataTypes) {
 		return getTextFileData(fileLocation, fileName, textFormat, false, dataTypes);
 	}
 
@@ -350,7 +358,8 @@ public class DataHelper {
 			DataHelper.insertArray(data, primaryArray, primaryArray.length * i, 0);
 		}
 		for (int i = 0; i < primaryArray.length; i++) {
-			DataHelper.insertArray(data, joinArray, joinArray.length * i, primaryArray[0].length);
+			DataHelper.insertArray(data, joinArray, joinArray.length * i,
+					primaryArray[0].length);
 		}
 		return data;
 	}
@@ -363,8 +372,9 @@ public class DataHelper {
 	 * @param sheet
 	 * @return
 	 */
-	private static ArrayList<Object> collectExcelData(Boolean hasLabels, InputStream newExcelFormatFile,
-			ArrayList<Object> results, Workbook workbook, Sheet sheet, DataType[] dataTypes) {
+	private static ArrayList<Object> collectExcelData(Boolean hasLabels,
+			InputStream newExcelFormatFile, ArrayList<Object> results, Workbook workbook,
+			Sheet sheet, DataType[] dataTypes) {
 		try {
 			Iterator<Row> rowIterator = sheet.iterator();
 			if (hasLabels) {
@@ -384,14 +394,16 @@ public class DataHelper {
 						break;
 					case Cell.CELL_TYPE_NUMERIC:
 						if (dataTypes[curColumn] == DataType.INT) {
-							System.out.print((int) cell.getNumericCellValue() + "(" + dataTypes[curColumn] + ")\t\t\t");
+							System.out.print((int) cell.getNumericCellValue() + "("
+									+ dataTypes[curColumn] + ")\t\t\t");
 							rowData.add((int) cell.getNumericCellValue());
 						} else if (dataTypes[curColumn] == DataType.FLOAT) {
-							System.out
-									.print((float) cell.getNumericCellValue() + "(" + dataTypes[curColumn] + ")\t\t\t");
+							System.out.print((float) cell.getNumericCellValue() + "("
+									+ dataTypes[curColumn] + ")\t\t\t");
 							rowData.add((float) cell.getNumericCellValue());
 						} else {
-							System.out.print(cell.getNumericCellValue() + "(" + dataTypes[curColumn] + ")\t\t\t");
+							System.out.print(cell.getNumericCellValue() + "("
+									+ dataTypes[curColumn] + ")\t\t\t");
 							rowData.add(cell.getNumericCellValue());
 						}
 						break;
@@ -408,7 +420,8 @@ public class DataHelper {
 				System.out.println("");
 			}
 			newExcelFormatFile.close();
-			FileOutputStream out = new FileOutputStream(new File("src/main/resources/excel-output.xlsx"));
+			FileOutputStream out = new FileOutputStream(
+					new File("src/main/resources/excel-output.xlsx"));
 			workbook.write(out);
 			out.close();
 		} catch (FileNotFoundException e) {
@@ -450,7 +463,8 @@ public class DataHelper {
 				data = Integer.parseInt(parameter);
 				break;
 			case BOOLEAN:
-				if (parameter.equalsIgnoreCase("true") | parameter.equalsIgnoreCase("false")) {
+				if (parameter.equalsIgnoreCase("true")
+						| parameter.equalsIgnoreCase("false")) {
 					data = Boolean.parseBoolean(parameter);
 				} else {
 					throw new BooleanFormatException();
@@ -459,8 +473,10 @@ public class DataHelper {
 			default:
 				break;
 			}
-		} catch (NumberFormatException | BooleanFormatException | CharacterCountFormatException e) {
-			System.out.println("Converting data.. to... " + dataType + "(" + parameter + ")");
+		} catch (NumberFormatException | BooleanFormatException
+				| CharacterCountFormatException e) {
+			System.out.println(
+					"Converting data.. to... " + dataType + "(" + parameter + ")");
 		}
 		return data;
 	}
@@ -474,8 +490,8 @@ public class DataHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	private static ArrayList<Object> getNewExcelFileResults(String fileLocation, String fileName, Boolean hasLabels,
-			DataType[] dataTypes) {
+	private static ArrayList<Object> getNewExcelFileResults(String fileLocation,
+			String fileName, Boolean hasLabels, DataType[] dataTypes) {
 		ArrayList<Object> data = null;
 		String fullFilePath = fileLocation + fileName;
 		InputStream newExcelFormatFile;
@@ -484,7 +500,8 @@ public class DataHelper {
 			ArrayList<Object> results = new ArrayList<Object>();
 			Workbook workbook = new XSSFWorkbook(newExcelFormatFile);
 			Sheet sheet = workbook.getSheetAt(0);
-			data = collectExcelData(hasLabels, newExcelFormatFile, results, workbook, sheet, dataTypes);
+			data = collectExcelData(hasLabels, newExcelFormatFile, results, workbook,
+					sheet, dataTypes);
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
 		} catch (IOException e) {
@@ -502,8 +519,8 @@ public class DataHelper {
 	 * @param hasLabels
 	 * @return
 	 */
-	private static ArrayList<Object> getOldExcelFileResults(String fileLocation, String fileName, Boolean hasLabels,
-			DataType[] dataTypes) {
+	private static ArrayList<Object> getOldExcelFileResults(String fileLocation,
+			String fileName, Boolean hasLabels, DataType[] dataTypes) {
 		ArrayList<Object> data = null;
 		String fullFilePath = fileLocation + fileName;
 		InputStream newExcelFormatFile;
@@ -512,7 +529,8 @@ public class DataHelper {
 			ArrayList<Object> results = new ArrayList<Object>();
 			Workbook workbook = new HSSFWorkbook(newExcelFormatFile);
 			Sheet sheet = workbook.getSheetAt(0);
-			data = collectExcelData(hasLabels, newExcelFormatFile, results, workbook, sheet, dataTypes);
+			data = collectExcelData(hasLabels, newExcelFormatFile, results, workbook,
+					sheet, dataTypes);
 		} catch (FileNotFoundException e) {
 			System.out.println("File Not Found");
 		} catch (IOException e) {
@@ -522,7 +540,8 @@ public class DataHelper {
 		return data;
 	}
 
-	private static void insertArray(Object[][] origArray, Object[][] newData, int insertX, int insertY) {
+	private static void insertArray(Object[][] origArray, Object[][] newData, int insertX,
+			int insertY) {
 		for (int i = insertX, x = 0; i < newData.length + insertX; i++, x++) {
 			for (int j = insertY, y = 0; j < newData[x].length + insertY; j++, y++) {
 				origArray[i][j] = newData[x][y];
@@ -538,7 +557,8 @@ public class DataHelper {
 	 * @param fileName
 	 * @return
 	 */
-	private static ArrayList<String> openFileAndCollectData(String fileLocation, String fileName) {
+	private static ArrayList<String> openFileAndCollectData(String fileLocation,
+			String fileName) {
 		String fullFilePath = fileLocation + fileName;
 		ArrayList<String> dataLines = new ArrayList<String>();
 		try {
@@ -566,7 +586,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	private static Object[][] parseCSVData(ArrayList<String> lines, boolean hasLabels, DataType[] dataTypes) {
+	private static Object[][] parseCSVData(ArrayList<String> lines, boolean hasLabels,
+			DataType[] dataTypes) {
 		ArrayList<Object> results = new ArrayList<Object>();
 		if (hasLabels) {
 			lines.remove(0);
@@ -580,7 +601,8 @@ public class DataHelper {
 			while (m.find()) {
 				if (dataTypes.length > 0) {
 					try {
-						curMatches.add(convertDataType(m.group(2).trim(), dataTypes[curDataType]));
+						curMatches.add(convertDataType(m.group(2).trim(),
+								dataTypes[curDataType]));
 					} catch (Exception e) {
 						// System.out.println("DataTypes
 						// provided do not match
@@ -608,7 +630,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	private static Object[][] parseJSONData(ArrayList<String> lines, Boolean hasLabels, DataType[] dataTypes) {
+	private static Object[][] parseJSONData(ArrayList<String> lines, Boolean hasLabels,
+			DataType[] dataTypes) {
 		// TODO Create an implementation to handle JSON
 		// formatted documents
 		return null;
@@ -622,7 +645,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	private static Object[][] parseTabData(ArrayList<String> lines, Boolean hasLabels, DataType[] dataTypes) {
+	private static Object[][] parseTabData(ArrayList<String> lines, Boolean hasLabels,
+			DataType[] dataTypes) {
 		// TODO Create an implementation to handle Tab
 		// formatted documents
 		return null;
@@ -636,7 +660,8 @@ public class DataHelper {
 	 * @param dataTypes
 	 * @return
 	 */
-	private static Object[][] parseXMLData(ArrayList<String> lines, Boolean hasLabels, DataType[] dataTypes) {
+	private static Object[][] parseXMLData(ArrayList<String> lines, Boolean hasLabels,
+			DataType[] dataTypes) {
 		// TODO Create an implementation to handle XML
 		// formatted documents
 		return null;
